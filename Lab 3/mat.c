@@ -5,7 +5,7 @@ double t1, t2;
 
 double start, finish;
 
-//Compilar: mpicc -g -Wall -o mpi MPIMultMatrix.c Ejecutar: mpiexec -n 4 ./mpi
+//Compilar: mpicc -g -Wall -o mpi mat.c Ejecutar: mpiexec -n 4 ./mpi
 /*Como la matriz [][] -> se verá como vector-Usamos la sngt func*/
 void Read_vector(double local_a[], int local_n, int n, char vec_name[], int my_rank, MPI_Comm comm){
   double* a = NULL;
@@ -15,7 +15,7 @@ void Read_vector(double local_a[], int local_n, int n, char vec_name[], int my_r
     a = malloc(n*sizeof(double));
     printf("ENter the vector %s\n", vec_name);
     for(i = 0; i < n; i++)
-	  {a[i]=2;}
+	  {a[i]=1;}
       //{scanf("%lf", &a[i]);}
      MPI_Scatter(a, local_n, MPI_DOUBLE, local_a, local_n, MPI_DOUBLE,0,comm);
      free(a);
@@ -71,8 +71,8 @@ int main(){
   double start,finish;
   //m filas n columnas , al compilar -n a; a = num de filas en este caso 4,
   //m y n deben ser multiplos o iguales.
-  int m=40;
-  int n=40, local_n,local_m;
+  int m=10;
+  int n=10, local_n,local_m;
 
   MPI_Init(NULL,NULL);
 
@@ -83,8 +83,9 @@ int main(){
   double local_x[local_n],local_y[local_m],local_A[local_n*local_m];
   Read_vector(local_A,local_n+local_m,n*m,"A",my_rank,MPI_COMM_WORLD);
   Read_vector(local_x,local_n,n,"X",my_rank,MPI_COMM_WORLD);
-  Mat_vect_mult(local_A, local_x, local_y, local_m,n,local_n,MPI_COMM_WORLD);
   t1 = MPI_Wtime();
+
+  Mat_vect_mult(local_A, local_x, local_y, local_m,n,local_n,MPI_COMM_WORLD);
 
  Print_vector(local_y,local_m,m,"Y", my_rank,MPI_COMM_WORLD);
 t2 = MPI_Wtime();

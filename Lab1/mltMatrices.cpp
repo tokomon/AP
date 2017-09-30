@@ -78,23 +78,14 @@ int multiplicarmtz(int m,int n, int f, int   c)
 }
 
 int main(int argc, char const *argv[])
-{
-  /* code */
-  
-
-
-
+{  
   struct timeval comienzo, final;
 
   gettimeofday(&comienzo, NULL);
 
-
-
   multiplicarmtz(MAX,MAX,MAX,MAX);
 
  
-
-
 
   gettimeofday(&final, NULL);
 
