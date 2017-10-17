@@ -1,0 +1,38 @@
+Why Parallel Computing?
+En lugar de diseñar y construir microprocesadores más rápidos, ponga varios procesadores en un único circuito integrado.
+
+Una pequeña lección de física
+-Transistores más pequeños = procesadores más rápidos.
+-Procesadores más rápidos = mayor consumo de energía.
+-Mayor consumo de energía = aumento de calor.
+-Aumento de calor = procesadores poco fiables.
+
+
+¿Cómo escribimos programas paralelos?
+-Paralelismo de tareas
+  Partición de varias tareas llevadas a cabo la solución del problema entre los núcleos.
+-Paralelismo de datos
+  Partición de los datos utilizados en la solución del problema entre los núcleos.
+  Cada núcleo lleva a cabo operaciones similares en su parte de los datos.
+
+Coordinación
+Los núcleos generalmente necesitan coordinar su trabajo.
+-Comunicación - uno o más núcleos envían sus sumas parciales actuales a otro núcleo.
+-Equilibrio de carga: comparta el trabajo de forma uniforme entre los núcleos para que no se cargue demasiado.
+-Sincronización: porque cada núcleo funciona a su propio ritmo, asegúrese de que los núcleos no lleguen demasiado lejos del resto.
+
+Tipo de sistemas paralelos
+-Memoria compartida
+  Los núcleos pueden compartir el acceso a la memoria de la computadora.
+  Coordine los núcleos haciendo que examinen y actualicen las ubicaciones de memoria compartida.
+-Memoria distribuida
+  Cada núcleo tiene su propia memoria privada.
+  Los núcleos deben comunicarse explícitamente enviando mensajes a través de una red.
+
+fg hojas
+Tipo de sistemas paralelos
+
+Terminología
+-Computación concurrente - un programa en el que múltiples tareas pueden estar en progreso en cualquier instante.
+-Informática paralela: un programa en el que múltiples tareas cooperan estrechamente para resolver un problema
+-Computación distribuida - un programa puede necesitar cooperar con otros programas para resolver un problema.

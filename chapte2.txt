@@ -1,0 +1,181 @@
+Parallel Hardware and Parallel Software
+fg celloo de botella
+The von Neumann Architecture
+-Main memory
+  Esta es una colección de ubicaciones, cada una de las cuales es capaz de almacenar instrucciones y datos.
+  Cada ubicación consta de una dirección, que se utiliza para acceder a la ubicación, y el contenido de la ubicación.
+
+-Central processing unit (CPU)
+  Dividido en dos partes.
+  -Unidad de control - responsable de decidir qué instrucción en un programa debe ser ejecutado. (el jefe)
+  -Unidad aritmética y lógica (ALU) - responsable de ejecutar las instrucciones reales. (el trabajador)
+
+Temnos:
+-Registro - almacenamiento muy rápido, parte de la CPU.
+-Contador de programas: almacena la dirección de la siguiente instrucción a ejecutar.
+-Bus - cables y hardware que conecta la CPU y la memoria.
+
+Un sistema operativo "proceso"
+Una instancia de un programa de computadora que se está ejecutando.
+Componentes de un proceso:
+  -El programa de lenguaje de máquina ejecutable.
+  -Un bloque de memoria.
+  -Descriptores de los recursos que el sistema operativo ha asignado al proceso.
+  -Informacion de seguridad.
+  -Información sobre el estado del proceso.
+
+Multitasking
+-Da la ilusión de que un solo sistema de procesador está ejecutando varios programas simultáneamente.
+-Cada proceso se ejecuta a su vez. (porción de tiempo)
+-Después de que su tiempo es para arriba, espera hasta que tenga una vuelta otra vez. bloques
+
+Threading
+-Los hilos están contenidos dentro de los procesos.
+-Permiten a los programadores dividir sus programas en tareas (más o menos) independientes.
+-La esperanza es que cuando un hilo bloquea porque está esperando en un recurso, otro tendrá trabajo que hacer y puede ejecutar.
+
+MODIFICATIONS TO THE VON NEUMANN MODEL
+Basics of caching
+-Una colección de ubicaciones de memoria a las que se puede acceder en menos tiempo que otras ubicaciones de memoria.
+-Un caché de CPU normalmente se encuentra en el mismo chip, o uno que se puede acceder mucho más rápido que la memoria ordinaria.
+
+Principio de localidad
+-El acceso a una ubicación es seguido por un acceso de una ubicación cercana.
+-Localidad espacial - acceso a una ubicación cercana.
+-Localidad temporal - acceso en un futuro cercano.
+
+
+Asignaciones de caché
+-Completa asociativa: se puede colocar una nueva línea en cualquier ubicación de la memoria caché.
+-Correspondencia directa: cada línea de caché tiene una ubicación única en el caché al que se le asignará.
+-n-way conjunto asociativo - cada línea de caché puede colocarse en una de n ubicaciones diferentes en la caché.
+  Cuando más de una línea en la memoria se puede asignar a varias ubicaciones diferentes en caché también tenemos que ser capaces de decidir qué línea debe ser reemplazado o desalojado.
+
+Taxonomía de Flynn
+  -SISD : von Neman
+    Secuencia de instrucción única
+    Flujo de datos único
+  -(SIMD)
+    Secuencia de instrucción única
+    Flujo de datos múltiples
+    Paralelismo logrado dividiendo datos entre los procesadores.
+    Aplica la misma instrucción a varios elementos de datos.
+    Llamado paralelismo de datos.
+  -MISD
+    Flujo de instrucciones múltiples
+    Flujo de datos único
+  -(MIMD)
+    Flujo de instrucciones múltiples
+    Flujo de datos múltiples
+
+Vector processors (1)
+  Registros vectoriales.
+  Capaz de almacenar un vector de operandos y operar simultáneamente en su contenido.
+Plos:
+-Rápido.
+-Fácil de usar.
+-Los compiladores vectorizadores son buenos en identificar el código para explotar.
+-Los compiladores también pueden proporcionar información sobre el código que no puede ser vectorizado.
+-Ayuda al programador a reevaluar el código.
+-Alto ancho de banda de memoria.
+-Utiliza todos los elementos de una línea de caché.
+Cont:
+-No manejan estructuras de datos irregulares así como otras arquitecturas paralelas.
+-Un límite muy finito a su capacidad para manejar problemas cada vez más grandes. (escalabilidad)
+
+Redes de interconexión
+Afecta el rendimiento de los sistemas de memoria distribuida y compartida.
+
+Dos categorías:
+Interconexiones de memoria compartida://Interconexión de bus
+  Una colección de cables de comunicación paralelos junto con algún hardware que controla el acceso al bus.
+  Los cables de comunicación son compartidos por los dispositivos que están conectados a él.
+  A medida que aumenta el número de dispositivos conectados al bus, la contención para el uso del bus aumenta y el rendimiento disminuye.
+  -Interconexión interconectada
+    Utiliza switches para controlar el enrutamiento de datos entre los dispositivos conectados.
+    Crossbar:
+    -Permite la comunicación simultánea entre diferentes dispositivos.
+    -Más rápido que los autobuses.
+    -Pero el costo de los conmutadores y enlaces es relativamente alto.
+Interconexiones de memoria distribuida
+  -Interconexión directa
+    Cada interruptor está conectado directamente a un par de memoria de procesador, y los interruptores están conectados entre sí.
+  -Interconexión indirecta
+    Los interruptores no pueden conectarse directamente a un procesador.
+
+Cache coherence
+Los programadores no tienen control sobre cachés y cuando se actualizan.
+
+*******
+
+PARALLEL SOFTWARE
+
+SPMD - datos múltiples de un solo programa
+Un SPMD programas consiste en un único ejecutable que se puede comportar como si fuera múltiples programas diferentes a través del uso de ramas condicionales.
+
+Dynamic threads
+  El hilo maestro espera el trabajo, abre nuevos hilos y cuando se terminan los hilos
+  Uso eficiente de los recursos, pero la creación y terminación de los subprogramas requiere mucho tiempo.
+Static threads
+  El grupo de subprocesos creados y asignados funcionan, pero no finalizan hasta la limpieza.
+  Mejor rendimiento, pero potencial desperdicio de recursos del sistema.
+
+
+  Condición de carrera
+  Sección crítica
+  Mutuamente excluyentes
+  Bloqueo de exclusión mutua (mutex, o simplemente bloqueo)
+
+
+Input and Output
+  En programas de memoria distribuida, sólo el proceso 0 tendrá acceso a stdin. En programas de memoria compartida, sólo el hilo maestro o hilo 0 tendrá acceso a stdin.
+  Tanto en la memoria distribuida como en los programas de memoria compartida, todos los procesos / subprocesos pueden acceder a stdout y stderr.
+
+PERFORMANCE
+
+Speedup
+Number of cores = p
+Serial run-time = Tserial
+Parallel run-time = Tparallel
+
+Tparallel = Tserial  / p
+
+S=Tserial/ Tparallel
+
+Eficiencia de un programa paralelo
+E=S/p
+
+Effect of overhead
+Tparallel = Tserial  / p + Toverhead
+
+
+Amdahl’s Law
+-A menos que prácticamente todo el programa en serie esté paralelizado, la posible aceleración va a ser muy limitada
+-independientemente del número de núcleos disponibles.
+Por lo tanto la ley de Gustafson rescata el procesamiento paralelo que no era favorecido por la ley de Amdahl.
+
+
+Escalabilidad
+En general, un problema es escalable si puede manejar tamaños cada vez mayores de problemas.
+Si aumentamos el número de procesos / hilos y mantenemos la eficiencia fija sin aumentar el tamaño del problema, el problema es fuertemente escalable.
+Si mantenemos la eficiencia fijada aumentando el tamaño del problema a la misma velocidad que aumentamos el número de procesos / subprocesos, el problema es débilmente escalable.
+
+DISEÑO DE PROGRAMA PARALELO
+
+La metodología de Foster
+-Partición: divide el cálculo a realizar y los datos operados por el cálculo en pequeñas tareas.
+  El foco aquí debe estar en la identificación de tareas que se pueden ejecutar en paralelo.
+-Comunicación: determinar qué comunicación debe llevarse a cabo entre las tareas identificadas en el paso anterior.
+-Aglomeración o agregación: combinar tareas y comunicaciones identificadas en el primer paso en tareas más grandes.
+  Por ejemplo, si se debe ejecutar la tarea A antes de ejecutar la tarea B, puede tener sentido agruparlas en una sola tarea compuesta.
+-Asignación: asigne las tareas compuestas identificadas en el paso anterior a procesos / subprocesos.
+  Esto se debe hacer para que la comunicación se minimice, y cada proceso / hilo obtiene aproximadamente la misma cantidad de trabajo.
+
+conclsones:
+Sistemas serie
+  El modelo estándar del hardware de computadora ha sido la arquitectura de von Neumann.
+Hardware paralelo
+  La taxonomía de Flynn.
+Software paralelo
+  Nos centramos en el software para sistemas homogéneos MIMD, que consiste en un único programa que obtiene paralelismo por ramificación.
+  SPMD.
