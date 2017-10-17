@@ -6,10 +6,10 @@
 
 
 float sum = 0.0,pi_approx;
-int thread_count=2;//omp_get_num_threads();
+int thread_count=4;//omp_get_num_threads();
 int k,n;
 double factor = 1.0;
-n=1000;
+n=1000000;
 
 int main(int argc, char const *argv[])
 {
