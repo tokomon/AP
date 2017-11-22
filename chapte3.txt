@@ -1,1 +1,80 @@
 Programación de la memoria distribuida con MPI
+SPMD Múltiples datos de un solo programa
+-Compilamos un programa.
+-El proceso 0 hace algo diferente.
+-Recibe mensajes y los imprime mientras los otros procesos hacen el trabajo.
+-La construcción if-else hace nuestro programa SPMD.
+
+
+MPI Send(send buf p, send buf sz, send type, dest, send tag,
+send comm);
+
+MPI Recv(recv buf p, recv buf sz, recv type, src, recv tag,
+recv comm, &status);
+
+recv comm = send comm ,
+recv tag = send tag ,
+dest = r , and
+src = q .
+
+Un receptor puede obtener un mensaje sin saber:
+-la cantidad de datos en el mensaje,
+-el remitente del mensaje,
+-o la etiqueta del mensaje.
+
+Parallelizing the Trapezoidal Rule
+-Partición solución de problemas en las tareas.
+-Identificar los canales de comunicación entre las tareas.
+-Agregue tareas en tareas compuestas.
+-Asignar tareas compuestas a núcleos.
+
+
+
+COMUNICACIÓN COLECTIVA
+Comunicación estructurada en árbol
+En la primera fase:
+(a) El proceso 1 envía a 0, 3 envía a 2, 5 envía a 4 y 7 envía a 6.
+(b) Los procesos 0, 2, 4 y 6 añaden los valores recibidos.
+(c) Los procesos 2 y 6 envían sus nuevos valores a los procesos 0 y 4, respectivamente.
+(d) Los procesos 0 y 4 añaden los valores recibidos a sus nuevos valores.
+
+(a) El proceso 4 envía su valor más reciente al proceso 0.
+(b) El proceso 0 agrega el valor recibido a su valor más reciente.
+
+int MPI Reduce(
+void∗ input data p,
+void∗ output data p,
+int count,
+MPI Datatype datatype,
+MPI Op operator,
+int dest process,
+MPI Comm comm
+);
+
+
+MPI_Reduce(
+    void* send_data,
+    void* recv_data,
+    int count,
+    MPI_Datatype datatype,
+    MPI_Op op,
+    int root,
+    MPI_Comm communicator)
+
+
+
+    MPI_AllReduce(
+        void* send_data,
+        void* recv_data,
+        int count,
+        MPI_Datatype datatype,
+        MPI_Op op,
+        MPI_Comm communicator)
+
+
+    MPI_Bcast(
+        void* data,
+        int count,
+        MPI_Datatype datatype,
+        int root,
+        MPI_Comm communicator)
